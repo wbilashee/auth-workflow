@@ -102,8 +102,8 @@ const Wrapper = styled.section`
         text-align: center;
     }
     p {
-        margin: 0;
         margin-top: 1rem;
+        margin-bottom: 0;
         text-align: center;
     }
     .login-link {

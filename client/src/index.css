@@ -1,13 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700&display=swap");
 
 :root {
   --white: #fff;
   --green: #04a550;
   --grey-200: #e2e8f0;
-  --gray-400: #94a3b8;
+  --grey-400: #94a3b8;
   --red-dark: #842029;
   --red-light: #f8d7da;
-  --gray-light: #f1f5f7;
+  --grey-light: #f1f5f8;
   --green-dark: #0f5132;
   --green-light: #d1e7dd;
   --green-medium: #29e088;
@@ -26,13 +26,15 @@ html {
 *,
 ::after,
 ::before {
+  margin: 0;
+  padding: 0;
   box-sizing: inherit;
 }
 
 body {
   font-weight: 500;
   line-height: 1.75;
-  background: var(--gray-light);
+  background: var(--grey-light);
   font-family: "Raleway", sans-serif;
 }
 
@@ -129,8 +131,8 @@ ul {
   font-family: inherit;
   border-radius: 0.25rem;
   padding: 0.5rem 0.75rem;
-  background: var(--gray-light);
-  border: 1px solid var(--gray-200);
+  background: var(--grey-light);
+  border: 1px solid var(--grey-200);
 }
 
 .form-row {
@@ -142,7 +144,7 @@ ul {
 }
 
 ::placeholder {
-  color: var(--gray-400);
+  color: var(--grey-400);
   font-family: "Raleway", sans-serif;
 }
 
@@ -163,7 +165,7 @@ ul {
   margin: 0 auto;
   border-radius: 50%;
   border-top-color: var(--green);
-  border: 5px solid var(--gray-400);
+  border: 5px solid var(--grey-400);
   animation: spinner 0.6s linear infinite;
 }
 
