@@ -1,6 +1,7 @@
 const {
     createTokenUser,
     sendVerificationEmail,
+    sendResetPasswordEmail,
     attachCookiesToResponse,
 } = require("../utils");
 const crypto = require("crypto");
@@ -43,7 +44,7 @@ const register = async (req, res) => {
     res
         .status(StatusCodes.CREATED)
         .json({
-            msg: `Success! Please go to the link to verify account → ${emailUrl}`
+            msg: `Success! Please go to this link to verify account → ${emailUrl}`
         });
 }
 
@@ -91,7 +92,7 @@ const login = async (req, res) => {
             origin,
         });
 
-        throw new UnauthenticatedError(`Please go to the link to verify account → ${emailUrl}`);
+        throw new UnauthenticatedError(`Please go to this link to verify account → ${emailUrl}`);
     }
 
     const tokenUser = createTokenUser(user);
@@ -139,9 +140,67 @@ const logout = async (req, res) => {
         .json({ msg: "user logged out" });
 }
 
+const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        throw new BadRequestError("Please provide valid email");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new UnauthenticatedError("User doesn't exist");
+    }
+
+    const passwordToken = crypto.randomBytes(30).toString("hex");
+    const emailUrl = await sendResetPasswordEmail({
+        name: user.name,
+        email: user.email,
+        passwordToken: passwordToken,
+        origin,
+    });
+
+    const tenMinutes = 1000 * 60 * 10;
+    const passwordTokenExpirationDate = new Date(Date.now() + tenMinutes);
+
+    user.passwordToken = passwordToken;
+    user.passwordTokenExpirationDate = passwordTokenExpirationDate;
+    await user.save();
+
+    res
+        .status(StatusCodes.OK)
+        .json({ msg: `Please go to this link to reset your password → ${emailUrl}` });
+}
+
+const resetPassword = async (req, res) => {
+    const { email, password, passwordToken } = req.body;
+    if (!email || !password || !passwordToken) {
+        throw new BadRequestError("Please provide all values");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new UnauthenticatedError("User doesn't exist");
+    }
+
+    const currentDate = new Date();
+
+    if (user.passwordToken === passwordToken && user.passwordTokenExpirationDate > currentDate) {
+        user.password = password;
+        user.passwordToken = null;
+        user.passwordTokenExpirationDate = null;
+        await user.save();
+    }
+
+    res
+        .status(StatusCodes.OK)
+        .json({ msg: "Password reseted successfully" });
+}
+
 module.exports = {
     login,
     logout,
     register,
     verifyEmail,
+    resetPassword,
+    forgotPassword,
 }

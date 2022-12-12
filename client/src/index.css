@@ -59,6 +59,10 @@ h4 {
   text-align: center;
 }
 
+h2 {
+  margin-bottom: 1rem;
+}
+
 .link {
   cursor: pointer;
   color: var(--green);
@@ -134,6 +138,7 @@ h4 {
 
 .form-label {
   display: block;
+  text-align: left;
   margin-bottom: 0.5rem;
   font-size: var(--font-sm);
   text-transform: capitalize;

@@ -81,7 +81,6 @@ const Wrapper = styled.section`
     }
     h2 {
         font-size: 1.15rem;
-        margin-bottom: 1rem;
         @media only screen and (min-width: 640px) {
             font-size: 1.5rem;
         }

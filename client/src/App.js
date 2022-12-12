@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import Loading from "./components/Loading";
 import { useGlobalContext } from "./context";
 import PrivateRoute from "./pages/PrivateRoute";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
 import NavbarLayout from "./components/NavbarLayout";
 import { BrowserRouter as Router, Route, Routes, } from "react-router-dom";
 
@@ -24,6 +26,8 @@ export default function App() {
             <Routes>
                 <Route index element={<Home />} />
                 <Route path="/verify-email" element={<Verify />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route element={<NavbarLayout />}>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
