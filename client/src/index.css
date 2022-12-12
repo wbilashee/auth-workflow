@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700&display=swap");
 
 :root {
-  --white: #fff;
+  --blue: #3F3D56;
+  --white: #ffffff;
   --green: #04a550;
   --grey-200: #e2e8f0;
   --grey-400: #94a3b8;

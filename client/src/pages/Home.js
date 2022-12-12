@@ -42,7 +42,7 @@ const Wrapper = styled.section`
     display: grid;
     align-items: center;
     h2 {
-        color: #3F3D56;
+        color: var(--blue);
         font-weight: 700;
         font-size: 1.75rem;
         margin-bottom: 0.5rem;
