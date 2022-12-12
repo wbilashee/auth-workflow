@@ -1,8 +1,11 @@
 const {
+    createTokenUser,
     sendVerificationEmail,
+    attachCookiesToResponse,
 } = require("../utils");
 const crypto = require("crypto");
 const User = require("../models/User");
+const Token = require("../models/Token");
 const { StatusCodes } = require("http-status-codes");
 const {
     NotFoundError,
@@ -63,7 +66,73 @@ const verifyEmail = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: "Account Confirmed Successfully" });
 }
 
+const login = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        throw new BadRequestError("Please provide email and password");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new NotFoundError("User doesn't exist");
+    }
+
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (!isPasswordCorrect) {
+        throw new UnauthenticatedError("Password is not correct");
+    }
+
+    if (!user.isVerified) {
+        const emailUrl = await sendVerificationEmail({
+            name: user.name,
+            email: user.email,
+            verificationToken: user.verificationToken,
+            origin,
+        });
+
+        throw new UnauthenticatedError(`Please go to the link to verify account → ${emailUrl}`);
+    }
+
+    const tokenUser = createTokenUser(user);
+
+    let refreshToken = "";
+    const existingToken = await Token.findOne({ user: user._id });
+
+    if (existingToken) {
+        const { isValid } = existingToken;
+        if (!isValid) {
+            throw new UnauthenticatedError("Invalid Credentials");
+        }
+        refreshToken = existingToken.refreshToken;
+        attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+        res
+            .status(StatusCodes.OK)
+            .json({
+                msg: "user logged in successfully",
+                user: tokenUser,
+            });
+        return;
+    }
+
+    refreshToken = crypto.randomBytes(40).toString("hex");
+    const ip = req.ip;
+    const userAgent = req.headers["user-agent"];
+    const userToken = { refreshToken, ip, userAgent, user: user._id };
+
+    await Token.create(userToken);
+    attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+
+    res
+        .status(StatusCodes.OK)
+        .json({
+            msg: "user logged in successfully",
+            user: tokenUser,
+        });
+}
+
 module.exports = {
+    login,
     register,
     verifyEmail,
 }

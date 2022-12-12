@@ -8,7 +8,7 @@ export default function Navbar() {
 
     return (
         <Wrapper>
-            <div className="nav-center">
+            <div className={`nav-center ${user ? "nav-sb" : ""}`}>
                 <Link to="/">
                     <h3 className="logo">
                         <span>Auth </span>
@@ -22,17 +22,6 @@ export default function Navbar() {
                         logout
                     </button>
                 </div>)}
-
-
-                <div className="nav-text">
-                    <p>Hello, Elen Emily</p>
-                    <button className="btn"
-                        onClick={() => logoutUser()}>
-                        logout
-                    </button>
-                </div>
-
-
             </div>
         </Wrapper>
     )
@@ -48,8 +37,11 @@ const Wrapper = styled.nav`
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        justify-content: center;
         width: var(--fluid-width);
         max-width: var(--max-width);
+    }
+    .nav-sb {
         justify-content: space-between;
     }
     .logo {
