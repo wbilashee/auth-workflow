@@ -54,6 +54,7 @@ ul {
   list-style-type: none;
 }
 
+h2,
 h4 {
   text-align: center;
 }
@@ -167,36 +168,8 @@ h4 {
   text-transform: capitalize;
 }
 
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading {
+.loading img {
   width: 6rem;
-  height: 6rem;
-  margin: 0 auto;
-  border-radius: 50%;
-  border-top-color: var(--green);
-  border: 5px solid var(--grey-400);
-  animation: spinner 0.6s linear infinite;
-}
-
-.loading {
-  margin: 0 auto;
-}
-
-.title {
-  text-align: center;
-}
-
-.title-underline {
-  width: 7rem;
-  height: 0.25rem;
-  margin: 0 auto;
-  margin-top: -1rem;
-  background: var(--green);
 }
 
 .page {
