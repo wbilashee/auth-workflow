@@ -1,6 +1,7 @@
 import React from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Error from "./pages/Error";
 import Verify from "./pages/Verify";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -37,6 +38,7 @@ export default function App() {
                         </PrivateRoute>}
                     />
                 </Route>
+                <Route path="*" element={<Error />} />
             </Routes>
         </Router>
     )
