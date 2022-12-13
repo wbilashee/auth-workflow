@@ -13,7 +13,7 @@ const {
     BadRequestError,
     UnauthenticatedError,
 } = require("../errors");
-const origin = "http://localhost:3000";
+const origin = "https://auth-workflow.netlify.app";
 
 const register = async (req, res) => {
     const { name, email, password } = req.body;

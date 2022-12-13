@@ -21,7 +21,10 @@ app.use(rateLimiter({
     max: 60,
 }));
 app.use(xss());
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({
+    credentials: true,
+    origin: "https://auth-workflow.netlify.app"
+}));
 app.use(helmet());
 app.use(mongoSanitize());
 app.use(cookieParser(process.env.JWT_SECRET));
