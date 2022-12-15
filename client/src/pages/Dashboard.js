@@ -98,7 +98,7 @@ const Wrapper = styled.section`
     .users {
         display: grid;
         gap: 2rem 4rem;
-        margin: 1rem auto;
+        margin: 2rem auto;
         grid-template-columns: 1fr;
         @media only screen and (min-width: 640px) {
             grid-template-columns: repeat(2, 1fr);
