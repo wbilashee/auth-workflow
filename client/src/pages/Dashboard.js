@@ -22,7 +22,7 @@ export default function Dashboard() {
         hideAlert();
         setLoading(true);
         try {
-            const { data } = await axios.get(`${url}/api/v1/user/all`);
+            const { data } = await axios.get(`${url}/api/v1/user/all`, { withCredentials: true });
             showAlert({
                 text: `${data.msg}`,
                 type: "success",
